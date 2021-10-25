@@ -1,0 +1,59 @@
+```{r}
+library(tidyverse)
+library(ggalt)
+```
+
+```{r}
+badlogs <- read_csv("badfootballlogs19.csv")
+```
+```{r}
+head(badlogs)
+```
+
+```{r}
+badlogs%>%
+  separate(Result, into=c("Outcome", "Score"), sep="\\ ") %>% 
+  mutate(Score=gsub("\\(", "", Score)) %>%
+  mutate(Score=gsub(")", "", Score)) 
+```
+
+```{r}
+goodlogs <- badlogs %>%
+  separate(Result, into=c("Outcome", "Score"), sep="\\ ") %>%
+  mutate(Score=gsub("\\(", "", Score)) %>%
+  mutate(Score=gsub(")", "", Score)) %>%
+  separate(Score, into=c("TeamScore", "OpponentScore"), sep = "-")%>%
+  mutate(TeamScore = as.numeric(TeamScore), OpponentScore = as.numeric(OpponentScore))
+```
+
+
+```{r}
+gooddifferential <- goodlogs %>%
+  mutate(Differential = TeamScore - OpponentScore)
+```
+
+
+```{r}
+worstgames <-gooddifferential %>% filter(Differential>65) 
+```
+
+```{r}
+ggplot() +
+  geom_point(data = gooddifferential, aes(x=TeamScore, y=OpponentScore), color= "grey") + geom_point(data = worstgames, aes(x=TeamScore, y=OpponentScore ), color = "blue")
+```
+
+
+```{r}
+ggplot() +
+  geom_point(data = gooddifferential, aes(x=TeamScore, y=OpponentScore), color= "grey") + geom_point(data = worstgames, aes(x=TeamScore, y=OpponentScore ), color = "blue") +
+  geom_encircle(data = worstgames, aes(x=TeamScore, y=OpponentScore), s_shape=.1, expand=.04, color="black")
+
+```
+
+```{r}
+ggplot() +
+  geom_point(data = gooddifferential, aes(x=TeamScore, y=OpponentScore), color= "grey") + geom_point(data = worstgames, aes(x=TeamScore, y=OpponentScore ), color = "blue") +
+  geom_encircle(data = worstgames, aes(x=TeamScore, y=OpponentScore), s_shape=.1, expand=.04, color="black") +
+  labs(title= "The Worst College Football Games of 2019", subtitle = "Blowout differences over 65 points.", caption = "Source:Sports-Reference.com | By:Skylee Nelson", x = "Opponent Score", y= "Team Score") + theme_minimal()
+
+```
