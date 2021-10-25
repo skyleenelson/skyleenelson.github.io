@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.88.1" />
+
+
+<title> - Skylee Nelson&#39;s GitHub Site</title>
+<meta property="og:title" content=" - Skylee Nelson&#39;s GitHub Site">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/GitHub.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="55"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/skyleenelson">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/mattwaite">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title"></h1>
+
+    
+    <span class="article-date">0001-01-01</span>
+    
+
+    <div class="article-content">
+      <pre tabindex="0"><code class="language-{r}" data-lang="{r}">library(tidyverse)
+library(ggalt)
+</code></pre><pre tabindex="0"><code class="language-{r}" data-lang="{r}">badlogs &lt;- read_csv(&quot;badfootballlogs19.csv&quot;)
+</code></pre><pre tabindex="0"><code class="language-{r}" data-lang="{r}">head(badlogs)
+</code></pre><pre tabindex="0"><code class="language-{r}" data-lang="{r}">badlogs%&gt;%
+  separate(Result, into=c(&quot;Outcome&quot;, &quot;Score&quot;), sep=&quot;\\ &quot;) %&gt;% 
+  mutate(Score=gsub(&quot;\\(&quot;, &quot;&quot;, Score)) %&gt;%
+  mutate(Score=gsub(&quot;)&quot;, &quot;&quot;, Score)) 
+</code></pre><pre tabindex="0"><code class="language-{r}" data-lang="{r}">goodlogs &lt;- badlogs %&gt;%
+  separate(Result, into=c(&quot;Outcome&quot;, &quot;Score&quot;), sep=&quot;\\ &quot;) %&gt;%
+  mutate(Score=gsub(&quot;\\(&quot;, &quot;&quot;, Score)) %&gt;%
+  mutate(Score=gsub(&quot;)&quot;, &quot;&quot;, Score)) %&gt;%
+  separate(Score, into=c(&quot;TeamScore&quot;, &quot;OpponentScore&quot;), sep = &quot;-&quot;)%&gt;%
+  mutate(TeamScore = as.numeric(TeamScore), OpponentScore = as.numeric(OpponentScore))
+</code></pre><pre tabindex="0"><code class="language-{r}" data-lang="{r}">gooddifferential &lt;- goodlogs %&gt;%
+  mutate(Differential = TeamScore - OpponentScore)
+</code></pre><pre tabindex="0"><code class="language-{r}" data-lang="{r}">worstgames &lt;-gooddifferential %&gt;% filter(Differential&gt;65) 
+</code></pre><pre tabindex="0"><code class="language-{r}" data-lang="{r}">ggplot() +
+  geom_point(data = gooddifferential, aes(x=TeamScore, y=OpponentScore), color= &quot;grey&quot;) + geom_point(data = worstgames, aes(x=TeamScore, y=OpponentScore ), color = &quot;blue&quot;)
+</code></pre><pre tabindex="0"><code class="language-{r}" data-lang="{r}">ggplot() +
+  geom_point(data = gooddifferential, aes(x=TeamScore, y=OpponentScore), color= &quot;grey&quot;) + geom_point(data = worstgames, aes(x=TeamScore, y=OpponentScore ), color = &quot;blue&quot;) +
+  geom_encircle(data = worstgames, aes(x=TeamScore, y=OpponentScore), s_shape=.1, expand=.04, color=&quot;black&quot;)
+
+</code></pre><pre tabindex="0"><code class="language-{r}" data-lang="{r}">ggplot() +
+  geom_point(data = gooddifferential, aes(x=TeamScore, y=OpponentScore), color= &quot;grey&quot;) + geom_point(data = worstgames, aes(x=TeamScore, y=OpponentScore ), color = &quot;blue&quot;) +
+  geom_encircle(data = worstgames, aes(x=TeamScore, y=OpponentScore), s_shape=.1, expand=.04, color=&quot;black&quot;) +
+  labs(title= &quot;The Worst College Football Games of 2019&quot;, subtitle = &quot;Blowout differences over 65 points.&quot;, caption = &quot;Source:Sports-Reference.com | By:Skylee Nelson&quot;, x = &quot;Opponent Score&quot;, y= &quot;Team Score&quot;) + theme_minimal()
+
+</code></pre>
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+

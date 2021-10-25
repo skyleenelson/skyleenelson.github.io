@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/about/</loc>
-    <lastmod>2021-10-10T00:00:00+00:00</lastmod>
+    <loc>/2021/10/25/bad-football-example/</loc>
+    <lastmod>2021-10-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/post/</loc>
-    <lastmod>2021-10-10T00:00:00+00:00</lastmod>
+    <lastmod>2021-10-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/</loc>
+    <lastmod>2021-10-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/about/</loc>
     <lastmod>2021-10-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/2021/10/10/sports-data-analysis-and-visualization/</loc>
@@ -19,6 +22,8 @@
   </url><url>
     <loc>/2015/01/01/lorem-ipsum/</loc>
     <lastmod>2015-01-01T13:09:13-06:00</lastmod>
+  </url><url>
+    <loc>/1/01/01/</loc>
   </url><url>
     <loc>/categories/</loc>
   </url><url>
