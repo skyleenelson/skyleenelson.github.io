@@ -2,34 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/2021/10/26/plumlee-brother-s/</loc>
-    <lastmod>2021-10-26T00:00:00+00:00</lastmod>
+    <loc>http://skyleenelson.github.io/post/</loc>
+    <lastmod>2021-10-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/post/</loc>
-    <lastmod>2021-10-26T00:00:00+00:00</lastmod>
+    <loc>http://skyleenelson.github.io/</loc>
+    <lastmod>2021-10-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/</loc>
-    <lastmod>2021-10-26T00:00:00+00:00</lastmod>
+    <loc>http://skyleenelson.github.io/2021/10/31/which-plumlee-brother-is-the-best/</loc>
+    <lastmod>2021-10-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/2021/10/25/bad-football-example/</loc>
-    <lastmod>2021-10-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/about/</loc>
+    <loc>http://skyleenelson.github.io/about/</loc>
     <lastmod>2021-10-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/2021/10/10/sports-data-analysis-and-visualization/</loc>
+    <loc>http://skyleenelson.github.io/2021/10/10/sports-data-analysis-and-visualization/</loc>
     <lastmod>2021-10-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/2016/12/30/a-plain-markdown-post/</loc>
-    <lastmod>2016-12-30T21:49:57-07:00</lastmod>
+    <loc>http://skyleenelson.github.io/categories/</loc>
   </url><url>
-    <loc>/2015/01/01/lorem-ipsum/</loc>
-    <lastmod>2015-01-01T13:09:13-06:00</lastmod>
-  </url><url>
-    <loc>/1/01/01/</loc>
-  </url><url>
-    <loc>/categories/</loc>
-  </url><url>
-    <loc>/tags/</loc>
+    <loc>http://skyleenelson.github.io/tags/</loc>
   </url>
 </urlset>

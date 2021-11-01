@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.88.1" />
+
+
+<title>Which Plumlee brother is the best? - Skylee Nelson&#39;s GitHub Site</title>
+<meta property="og:title" content="Which Plumlee brother is the best? - Skylee Nelson&#39;s GitHub Site">
+
+
+  <link href='http://skyleenelson.github.io/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/GitHub.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/skyleenelson">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/skyleenelson">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">5 min read</span>
+    
+
+    <h1 class="article-title">Which Plumlee brother is the best?</h1>
+
+    
+    <span class="article-date">2021-10-31</span>
+    
+
+    <div class="article-content">
+      
+<script src="http://skyleenelson.github.io/2021/10/31/which-plumlee-brother-is-the-best/index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Miles, Mason, and Marshall Plumlee were all top-ranked basketball recruits heading into college at Duke University. The brother’s spent four years on the Blue Devils roster, and in that time each have contributed to winning a national championship. The brothers’ success at Duke ultimately led each of them to reach the highest level of basketball playing in the NBA.</p>
+<p>The Plumlee trio was an unforgettable time for Blue Devils basketball. While the brothers have been competing with each other for years, I want to know which Plumlee was the best in their time at Duke.</p>
+<p>To begin, I am going to add the libraries and data sets I will be using.</p>
+<pre class="r"><code>library(tidyverse)
+library(ggplot2)
+library(waffle)
+rebounds &lt;- read_csv(&quot;defensetype - Sheet1.csv&quot;)
+eachseason &lt;- read_csv(&quot;individualseasons - Sheet1.csv&quot;)</code></pre>
+<p>The two data sets I will be working with is defensive statistics and each players season. I will be focusing on individual player statistics from Sports Reference’s college basketball site.</p>
+<p>The first thing I will be looking at is field goal percentage across each of their seasons. To do this, I will start by creating three separate data sets for Miles, Mason, and Marshall, highlighting each of their career field goal percentages. Since I am only interested in each player individually, I used filter match the correct player with the new data frame.</p>
+<pre class="r"><code>milesFGPCT &lt;- eachseason %&gt;% filter (Player == &quot;Miles Plumlee&quot;)
+masonFGPCT &lt;- eachseason %&gt;% filter (Player == &quot;Mason Plumlee&quot;)
+marshallFGPCT &lt;- eachseason %&gt;% filter (Player == &quot;Marshall Plumlee&quot;)</code></pre>
+<p>To figure out who was the best in their time at Duke, let’s start by looking at shooting percentages using a line chart.</p>
+<pre class="r"><code>ggplot() + 
+  geom_line(data=milesFGPCT, aes(x=Season, y=FGPCT, group= Player), color=&quot;black&quot;) +
+  geom_text(aes(x=&quot;2008-2009&quot;, y=.46, label=&quot;Miles&quot;)) +
+  geom_line(data=masonFGPCT, aes(x=Season, y=FGPCT, group= Player), color=&quot;dark grey&quot;) +
+  geom_text(aes(x=&quot;2009-2010&quot;, y=.45, label=&quot;Mason&quot;)) +
+  geom_line(data=marshallFGPCT, aes(x=Season, y=FGPCT, group= Player), color=&quot;blue&quot;) +
+  geom_text(aes(x=&quot;2012-2013&quot;, y=.1, label=&quot;Marshall&quot;)) +
+  labs(
+    x=&quot;Season&quot;, 
+    y=&quot;Field Goal Percentage&quot;, 
+    title=&quot;Shooting Percentage Among Plumlee Brother&#39;s Respective Seasons&quot;, 
+    subtitle=&quot;Miles and Mason stay steady while Marshall quickly improves.&quot;, 
+    caption=&quot;Source: Sports Reference | By Skylee Nelson&quot;) + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 15, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    )  </code></pre>
+<p><img src="http://skyleenelson.github.io/2021/10/31/which-plumlee-brother-is-the-best/index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Marshall is shown to be the most improved shooter in his four years. However, he came out on a slow start his freshman year, unlike his brothers who began their careers shooting just under 50%. Miles and Mason also showed steady improvements by their final year, whereas Marshall quickly improved but ended his career with a decrease in shooting percentage. However, in Marshall’s first season at Duke he took a significantly less amount of shots than either Miles or Mason. So while Marshall did show improvement, Miles and Mason seem to be better overall as shooters.</p>
+<p>We have looked a portion of their offensive statistics, but what about defense? The Plumlee’s are the big guys down low, because of this they’re expected to be top rebounders. For this next chart, I am going to be comparing offensive and defensive rebounds. I am going to use a stacked bar chart to compare each players offensive and defensive rebounds.</p>
+<pre class="r"><code>ggplot() +
+  geom_bar(data=rebounds, 
+           aes(x=reorder(Player, Rebounding), 
+               weight=Rebounding, 
+               fill=Type)) + 
+  theme_minimal() + 
+  coord_flip()+ 
+  labs(
+    x=&quot;Player&quot;, 
+    y=&quot;Number of Rebounds&quot;, 
+    title=&quot;Plumlee Brother&#39;s Rebounding Comparison&quot;, 
+    subtitle=&quot;Mason outpreformed Miles and Marshall on the boards.&quot;, 
+    caption=&quot;Source: Sports Reference | By Skylee Nelson&quot;) + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    )  </code></pre>
+<p><img src="http://skyleenelson.github.io/2021/10/31/which-plumlee-brother-is-the-best/index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>It’s ironic because Marshall is an inch taller than his brothers standing at 7’0". Marshall now seems to be falling behind as Miles and Mason nearly double his numbers for offensive and defensive rebounds. Mason has clearly proven to have out preformed the others in this category, but what about blocks and steals?</p>
+<p>Once again, these are the big guys down low protecting the basket. Let’s take a look at the number of blocks and steals they throughout their career. I am going to begin by creating three more data sets that include the amount of blocks and steals they accumulated over four years.</p>
+<pre class="r"><code>masonblocks &lt;- c(&quot;Blocks&quot;= 199, &quot;Steals&quot;=115)
+milesblocks &lt;- c(&quot;Blocks&quot;=87, &quot;Steals&quot;=62, 165 )
+marshallblocks &lt;- c(&quot;Blocks&quot;=100, &quot;Steals&quot;=44, 170)</code></pre>
+<p>For this next visual, I am going to use a waffle chart to compare the number of blocks and steals. This waffle chart will show us the total as a whole and we will be able to easily compare these defensive statistics by each player.</p>
+<pre class="r"><code>iron(
+ waffle(masonblocks, 
+        rows = 7, 
+        xlab=&quot;Mason&#39;s Defense&quot;, 
+        colors = c(&quot;blue&quot;, 
+                   &quot;black&quot;)) +
+ labs(
+     title=&quot;Mason Contributes Greater Numbers to Duke&#39;s Defense&quot;, 
+     subtitle=&quot;Miles and Marshall continue to trail behind Mason.&quot;) + 
+   theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 10),
+    axis.title.y = element_blank()
+  ),
+ waffle(milesblocks, 
+        rows = 7, 
+        xlab=&quot;Miles Defense&quot;, 
+        colors = c(&quot;blue&quot;, 
+                   &quot;black&quot;, 
+                   &quot;white&quot;)
+        ),
+ waffle(marshallblocks, 
+        rows = 7, 
+        xlab=&quot;Marshall&#39;s Defense\n1 square = 1 Block/Steal&quot;, 
+        colors = c(&quot;blue&quot;, 
+                   &quot;black&quot;, 
+                   &quot;white&quot;)) + 
+   labs(caption=&quot;Source: Sports Reference | By Skylee Nelson&quot;)
+)</code></pre>
+<p><img src="http://skyleenelson.github.io/2021/10/31/which-plumlee-brother-is-the-best/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>To no surprise, Mason comes out on top again. It is very clear to see that Mason nearly doubled the others numbers again. However, between Miles and Marshall it is a close call on both the offensive and defensive side of things. While the numbers point to Mason being the best, they all contributed a great amount to the Duke Blue Devil basketball program. They each ended with a national championship as well as time spend in the NBA. However, Mason and Miles became 1st round draft picks right of of college whereas Marshall joined the league awhile after graduating college.</p>
+<p>So as far as which Plumlee was the best in their time at Duke, Mason seems to be the top runner.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
