@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.88.1" />
+
+
+<title>&#39;96 Bulls vs &#39;16 Warriors: Who is the best basketball team? - Skylee Nelson&#39;s GitHub Site</title>
+<meta property="og:title" content="&#39;96 Bulls vs &#39;16 Warriors: Who is the best basketball team? - Skylee Nelson&#39;s GitHub Site">
+
+
+  <link href='http://skyleenelson.github.io/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/GitHub.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/skyleenelson">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/skyleenelson">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">3 min read</span>
+    
+
+    <h1 class="article-title">&#39;96 Bulls vs &#39;16 Warriors: Who is the best basketball team?</h1>
+
+    
+    <span class="article-date">2021-12-03</span>
+    
+
+    <div class="article-content">
+      
+<script src="http://skyleenelson.github.io/2021/12/03/96-bulls-vs-16-warriors-who-is-the-best-basketball-team/index_files/header-attrs/header-attrs.js"></script>
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.4     ✓ dplyr   1.0.7
+## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
+## ✓ readr   2.0.1     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(ggrepel)
+library(ggalt)</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;ggalt&#39;:
+##   method                  from   
+##   grid.draw.absoluteGrob  ggplot2
+##   grobHeight.absoluteGrob ggplot2
+##   grobWidth.absoluteGrob  ggplot2
+##   grobX.absoluteGrob      ggplot2
+##   grobY.absoluteGrob      ggplot2</code></pre>
+<pre class="r"><code>library(ggbump)
+library(cowplot)</code></pre>
+<pre class="r"><code>playerstats &lt;-read_csv(&quot;TotalPlayerStats - Sheet1 (1).csv&quot;)</code></pre>
+<pre><code>## Rows: 31 Columns: 28</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): Team, Player
+## dbl (26): Age, G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%, FT...</code></pre>
+<pre><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>cbteam &lt;- read_csv(&quot;ChicagoBullsPerGameStats - Sheet1.csv&quot;)</code></pre>
+<pre><code>## Rows: 1 Columns: 25</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## dbl (24): W, L, G, MP, FG, FGA, FGPCT, 3P, 3PA, 3PPCT, 2P, 2PA, 2PPCT, FT, F...
+## lgl  (1): PTS</code></pre>
+<pre><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>gsteam &lt;- read_csv(&quot;GoldenStatePerGameStats - Sheet1.csv&quot;)</code></pre>
+<pre><code>## Rows: 1 Columns: 25</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## dbl (25): W, L, G, MP, FG, FGA, FGPCT, 3P, 3PA, 3PPCT, 2P, 2PA, 2PPCT, FT, F...</code></pre>
+<pre><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>regularseason &lt;- read_csv(&quot;RegSeasonStats - Sheet1.csv&quot;)</code></pre>
+<pre><code>## Rows: 13 Columns: 18</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): Team, Date
+## dbl (16): Game, PTS, AVGPTS, OppPts, AVGOppPTS, FG, FGPCT, 3PPCT, FTPCT, ORE...</code></pre>
+<pre><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>gs&lt;- regularseason %&gt;% filter(Team == &quot;Golden State Warriors&quot;)
+cb&lt;- regularseason %&gt;% filter(Team == &quot;Chicago Bulls&quot;)
+teamvsopp&lt;- read_csv(&quot;teamvsopp - Sheet1.csv&quot;)</code></pre>
+<pre><code>## Rows: 4 Columns: 3</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): Team, Type
+## dbl (1): PTS</code></pre>
+<pre><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>postseason &lt;- read_csv(&quot;postseasonpts - Sheet1.csv&quot;)</code></pre>
+<pre><code>## Rows: 4 Columns: 3</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (2): Team, Type</code></pre>
+<pre><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>bar1 &lt;- ggplot() + 
+  geom_bar(data=teamvsopp, aes(x=Team, weight=PTS, fill=Type)) + 
+  scale_fill_manual(values =c(&quot;grey&quot;, &quot;blue&quot;)) +
+  coord_flip() + 
+  labs(
+    x=&quot;&quot;,
+    y=&quot;&quot;,
+    title= &quot;Total regular season points made vs points allowed&quot;,
+    subtitle = &quot;Golden State gave up more points in the regular season but still finished with a better record.&quot;,
+    caption = &quot; &quot;) +
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 12, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8),
+    plot.subtitle = element_text(size=10),
+    panel.grid.minor = element_blank(),
+    )
+
+bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
+  scale_fill_manual(values =c(&quot;grey&quot;, &quot;blue&quot;))  +
+  geom_bar() +
+  coord_flip() +
+  labs(x=&quot;&quot;, y=&quot;&quot;,
+       title=&quot;... compared to post-season point differences.&quot;,
+       subtitle=&quot;Was the Bulls greater score differential the deal breaker?&quot;,
+       caption=&quot;Source: Basketball Reference | By Skylee Nelson&quot;) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8),
+    plot.subtitle = element_text(size=10),
+    panel.grid.minor = element_blank() 
+    )</code></pre>
+<pre class="r"><code>plot_grid(bar1, bar2, ncol=1)</code></pre>
+<p><img src="http://skyleenelson.github.io/2021/12/03/96-bulls-vs-16-warriors-who-is-the-best-basketball-team/index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
