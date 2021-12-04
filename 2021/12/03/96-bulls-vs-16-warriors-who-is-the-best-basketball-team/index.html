@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">3 min read</span>
+    <span class="article-duration">8 min read</span>
     
 
     <h1 class="article-title">&#39;96 Bulls vs &#39;16 Warriors: Who is the best basketball team?</h1>
@@ -96,7 +96,9 @@ library(ggalt)</code></pre>
 ##   grobX.absoluteGrob      ggplot2
 ##   grobY.absoluteGrob      ggplot2</code></pre>
 <pre class="r"><code>library(ggbump)
-library(cowplot)</code></pre>
+library(cowplot)
+library(waffle)
+library(gt)</code></pre>
 <pre class="r"><code>playerstats &lt;-read_csv(&quot;TotalPlayerStats - Sheet1 (1).csv&quot;)</code></pre>
 <pre><code>## Rows: 31 Columns: 28</code></pre>
 <pre><code>## ── Column specification ────────────────────────────────────────────────────────
@@ -123,7 +125,7 @@ library(cowplot)</code></pre>
 <pre><code>## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>regularseason &lt;- read_csv(&quot;RegSeasonStats - Sheet1.csv&quot;)</code></pre>
+<pre class="r"><code>regularseason &lt;- read_csv(&quot;RegSeasonStats - Sheet1 copy.csv&quot;)</code></pre>
 <pre><code>## Rows: 13 Columns: 18</code></pre>
 <pre><code>## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -159,7 +161,7 @@ teamvsopp&lt;- read_csv(&quot;teamvsopp - Sheet1.csv&quot;)</code></pre>
     x=&quot;&quot;,
     y=&quot;&quot;,
     title= &quot;Total regular season points made vs points allowed&quot;,
-    subtitle = &quot;Golden State gave up more points in the regular season but still finished with a better record.&quot;,
+    subtitle = &quot;Golden State gave up more points in the regular season but ended with a better record.&quot;,
     caption = &quot; &quot;) +
   theme_minimal() + 
   theme(
@@ -186,6 +188,484 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
     )</code></pre>
 <pre class="r"><code>plot_grid(bar1, bar2, ncol=1)</code></pre>
 <p><img src="http://skyleenelson.github.io/2021/12/03/96-bulls-vs-16-warriors-who-is-the-best-basketball-team/index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>fourfactors &lt;- playerstats %&gt;%
+  select(Team, Player, &quot;eFG%&quot;, TOV, PTS, TRB) %&gt;%
+  group_by(Team, Player) %&gt;%
+  ungroup() %&gt;%
+  top_n(10) </code></pre>
+<pre><code>## Selecting by TRB</code></pre>
+<pre class="r"><code>fourfactors %&gt;% 
+  gt() %&gt;% 
+  tab_header(
+    title = &quot;Top 10 players according to four most contributing factors.&quot;,
+    subtitle = &quot;Equal talent for both teams allow for low scorers to showcase talent in other categories.&quot;
+  ) %&gt;%  
+  tab_source_note(
+    source_note = md(&quot;Source: basketball-reference.com | By Skylee Nelson&quot;)
+  ) %&gt;% 
+  tab_style(
+    style = cell_text(color = &quot;black&quot;, weight = &quot;bold&quot;, align = &quot;left&quot;),
+    locations = cells_title(&quot;title&quot;)
+  ) %&gt;% 
+  tab_style(
+    style = cell_text(color = &quot;black&quot;, align = &quot;left&quot;),
+    locations = cells_title(&quot;subtitle&quot;)
+  ) %&gt;%
+  tab_style(
+     locations = cells_column_labels(columns = everything()),
+     style = list(
+       cell_borders(sides = &quot;bottom&quot;, weight = px(3)),
+       cell_text(weight = &quot;bold&quot;, size=12)
+     )
+  ) %&gt;%
+  tab_style(
+    style = list(
+      cell_fill(color = &quot;blue&quot;),
+      cell_text(color = &quot;gold&quot;)
+      ),
+    locations = cells_body(
+      rows = Player == &quot;Andrew Bogut&quot;)) %&gt;%
+  tab_style(
+    style = list(
+      cell_fill(color = &quot;black&quot;),
+      cell_text(color = &quot;red&quot;)
+      ),
+    locations = cells_body(
+      rows = Player == &quot;Dennis Rodman&quot;)) %&gt;%
+  opt_row_striping() %&gt;%
+  opt_table_lines(&quot;none&quot;) %&gt;%
+  tab_style(
+    style = cell_borders(sides = c(&quot;top&quot;, &quot;bottom&quot;), 
+                         color = &quot; grey&quot;, weight = px(1)),
+    locations = cells_column_labels(everything())
+  )</code></pre>
+<div id="ghmdygabcz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#ghmdygabcz .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: none;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ghmdygabcz .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ghmdygabcz .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ghmdygabcz .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ghmdygabcz .gt_bottom_border {
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ghmdygabcz .gt_col_headings {
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ghmdygabcz .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ghmdygabcz .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ghmdygabcz .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ghmdygabcz .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ghmdygabcz .gt_column_spanner {
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ghmdygabcz .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ghmdygabcz .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ghmdygabcz .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ghmdygabcz .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ghmdygabcz .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ghmdygabcz .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#ghmdygabcz .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ghmdygabcz .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#ghmdygabcz .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ghmdygabcz .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: none;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ghmdygabcz .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ghmdygabcz .gt_table_body {
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ghmdygabcz .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ghmdygabcz .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ghmdygabcz .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ghmdygabcz .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ghmdygabcz .gt_left {
+  text-align: left;
+}
+
+#ghmdygabcz .gt_center {
+  text-align: center;
+}
+
+#ghmdygabcz .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ghmdygabcz .gt_font_normal {
+  font-weight: normal;
+}
+
+#ghmdygabcz .gt_font_bold {
+  font-weight: bold;
+}
+
+#ghmdygabcz .gt_font_italic {
+  font-style: italic;
+}
+
+#ghmdygabcz .gt_super {
+  font-size: 65%;
+}
+
+#ghmdygabcz .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="6" class="gt_heading gt_title gt_font_normal" style="color: #000000; text-align: left; font-weight: bold;">Top 10 players according to four most contributing factors.</th>
+    </tr>
+    <tr>
+      <th colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="color: #000000; text-align: left;">Equal talent for both teams allow for low scorers to showcase talent in other categories.</th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color:  grey; font-size: 12; font-weight: bold; border-top-width: 1px; border-top-style: solid; border-top-color:  grey;">Team</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color:  grey; font-size: 12; font-weight: bold; border-top-width: 1px; border-top-style: solid; border-top-color:  grey;">Player</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color:  grey; font-size: 12; font-weight: bold; border-top-width: 1px; border-top-style: solid; border-top-color:  grey;">eFG%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color:  grey; font-size: 12; font-weight: bold; border-top-width: 1px; border-top-style: solid; border-top-color:  grey;">TOV</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color:  grey; font-size: 12; font-weight: bold; border-top-width: 1px; border-top-style: solid; border-top-color:  grey;">PTS</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color:  grey; font-size: 12; font-weight: bold; border-top-width: 1px; border-top-style: solid; border-top-color:  grey;">TRB</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">Golden State Warriors</td>
+<td class="gt_row gt_left">Draymond Green</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">259</td>
+<td class="gt_row gt_right">1131</td>
+<td class="gt_row gt_right">769</td></tr>
+    <tr><td class="gt_row gt_left gt_striped">Golden State Warriors</td>
+<td class="gt_row gt_left gt_striped">Stephen Curry</td>
+<td class="gt_row gt_right gt_striped">0.630</td>
+<td class="gt_row gt_right gt_striped">262</td>
+<td class="gt_row gt_right gt_striped">2375</td>
+<td class="gt_row gt_right gt_striped">430</td></tr>
+    <tr><td class="gt_row gt_left">Golden State Warriors</td>
+<td class="gt_row gt_left">Klay Thompson</td>
+<td class="gt_row gt_right">0.569</td>
+<td class="gt_row gt_right">138</td>
+<td class="gt_row gt_right">1771</td>
+<td class="gt_row gt_right">306</td></tr>
+    <tr><td class="gt_row gt_left gt_striped">Golden State Warriors</td>
+<td class="gt_row gt_left gt_striped">Harrison Barnes</td>
+<td class="gt_row gt_right gt_striped">0.531</td>
+<td class="gt_row gt_right gt_striped">57</td>
+<td class="gt_row gt_right gt_striped">774</td>
+<td class="gt_row gt_right gt_striped">325</td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #0000FF; color: #FFD700;">Golden State Warriors</td>
+<td class="gt_row gt_left" style="background-color: #0000FF; color: #FFD700;">Andrew Bogut</td>
+<td class="gt_row gt_right" style="background-color: #0000FF; color: #FFD700;">0.629</td>
+<td class="gt_row gt_right" style="background-color: #0000FF; color: #FFD700;">83</td>
+<td class="gt_row gt_right" style="background-color: #0000FF; color: #FFD700;">375</td>
+<td class="gt_row gt_right" style="background-color: #0000FF; color: #FFD700;">492</td></tr>
+    <tr><td class="gt_row gt_left gt_striped">Chicago Bulls</td>
+<td class="gt_row gt_left gt_striped">Michael Jordan</td>
+<td class="gt_row gt_right gt_striped">0.525</td>
+<td class="gt_row gt_right gt_striped">197</td>
+<td class="gt_row gt_right gt_striped">2491</td>
+<td class="gt_row gt_right gt_striped">543</td></tr>
+    <tr><td class="gt_row gt_left">Chicago Bulls</td>
+<td class="gt_row gt_left">Scottie Pippen</td>
+<td class="gt_row gt_right">0.525</td>
+<td class="gt_row gt_right">207</td>
+<td class="gt_row gt_right">1496</td>
+<td class="gt_row gt_right">496</td></tr>
+    <tr><td class="gt_row gt_left gt_striped">Chicago Bulls</td>
+<td class="gt_row gt_left gt_striped">Toni Kukoč</td>
+<td class="gt_row gt_right gt_striped">0.546</td>
+<td class="gt_row gt_right gt_striped">114</td>
+<td class="gt_row gt_right gt_striped">1065</td>
+<td class="gt_row gt_right gt_striped">323</td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #000000; color: #FF0000;">Chicago Bulls</td>
+<td class="gt_row gt_left" style="background-color: #000000; color: #FF0000;">Dennis Rodman</td>
+<td class="gt_row gt_right" style="background-color: #000000; color: #FF0000;">0.485</td>
+<td class="gt_row gt_right" style="background-color: #000000; color: #FF0000;">138</td>
+<td class="gt_row gt_right" style="background-color: #000000; color: #FF0000;">351</td>
+<td class="gt_row gt_right" style="background-color: #000000; color: #FF0000;">952</td></tr>
+    <tr><td class="gt_row gt_left gt_striped">Chicago Bulls</td>
+<td class="gt_row gt_left gt_striped">Luc Longley</td>
+<td class="gt_row gt_right gt_striped">0.482</td>
+<td class="gt_row gt_right gt_striped">114</td>
+<td class="gt_row gt_right gt_striped">564</td>
+<td class="gt_row gt_right gt_striped">318</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="6">Source: basketball-reference.com | By Skylee Nelson</td>
+    </tr>
+  </tfoot>
+  
+</table>
+</div>
 
     </div>
   </article>
