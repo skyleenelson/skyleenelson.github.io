@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">6 min read</span>
+    <span class="article-duration">11 min read</span>
     
 
     <h1 class="article-title">&#39;96 Bulls vs &#39;16 Warriors: Who is the best basketball team?</h1>
@@ -76,28 +76,50 @@
 <script src="http://skyleenelson.github.io/2021/12/03/96-bulls-vs-16-warriors-who-is-the-best-basketball-team/index_files/header-attrs/header-attrs.js"></script>
 
 
+<p>The 1995-96 Chicago Bulls and 2015-16 Golden State Warriors are considered to be two of the greatest team’s in NBA history. Both teams had record breaking seasons as well as NBA All-Star players Michael Jordan, Scottie Pippen, Stephen Curry, Draymond Green, and Klay Thompson. The Bulls had won their third straight NBA championships. The Warriors, however, began their season 20-0 but later fell short in the championship game against the Cleveland Cavaliers. While both teams are among the greatest teams in NBA history, only one can be considered the best.</p>
+<p>Let’s begin with comparing records, and then we will break down the numbers to determine who really is the best team in NBA history.</p>
+<p>First, I am going to download the libraries and data frames I will be using. The data sets I will be using are focused on shooting percentages, regular season and post season performances, and game logs from each teams respective season.</p>
 <pre class="r"><code>library(tidyverse)
-library(ggplot2)
-library(ggrepel)
-library(ggalt)
-library(ggbump)
-library(cowplot)
+library(gt)
 library(waffle)
-library(gt)</code></pre>
+library(cowplot)</code></pre>
 <pre class="r"><code>playerstats &lt;-read_csv(&quot;TotalPlayerStats - Sheet1 (1).csv&quot;)
-cbteam &lt;- read_csv(&quot;ChicagoBullsPerGameStats - Sheet1.csv&quot;)
-gsteam &lt;- read_csv(&quot;GoldenStatePerGameStats - Sheet1.csv&quot;)
-regularseason &lt;- read_csv(&quot;RegSeasonStats - Sheet1 copy.csv&quot;)
-gs&lt;- regularseason %&gt;% filter(Team == &quot;Golden State Warriors&quot;)
-cb&lt;- regularseason %&gt;% filter(Team == &quot;Chicago Bulls&quot;)
 teamvsopp&lt;- read_csv(&quot;teamvsopp - Sheet1.csv&quot;)
 postseason &lt;- read_csv(&quot;postseasonpts - Sheet1.csv&quot;)
 gamelogs &lt;- read_csv(&quot;gamelogs - Sheet1.csv&quot;)
 cblogs &lt;- gamelogs %&gt;% filter(Team == &quot;Chicago Bulls&quot;)
 gslogs &lt;- gamelogs %&gt;% filter(Team == &quot;Golden State Warriors&quot;)</code></pre>
+<p>To understand how great these teams really were, let’s begin by looking at their regular season records. I am going to create a waffle chart that compares each teams wins and losses. I need to start by creating a new data set for each team that includes their record.</p>
+<pre class="r"><code>gs &lt;- c(&quot;Wins&quot;=73, &quot;Losses&quot;=9)
+cb &lt;- c(&quot;Wins&quot;=72, &quot;Losses&quot;=10)</code></pre>
+<pre class="r"><code>iron(
+ waffle(gs, 
+        rows = 4, 
+        xlab=&quot;Golden State&quot;, 
+        colors = c(&quot;blue&quot;, 
+                   &quot;black&quot;)) +
+ labs(
+     title=&quot;Two greatest single regular season records. &quot;, 
+     subtitle=&quot;Warriors stripped Bulls of best regular season title. Chicago still ended with a championship. &quot;) + 
+   theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 10),
+    axis.title.y = element_blank()
+  ),
+ waffle(cb, 
+        rows = 4, 
+        xlab=&quot;Chicago Bulls\n1 square = 1 Win/Loss&quot;, 
+        colors = c(&quot;red&quot;, 
+                   &quot;black&quot;)
+        ) + 
+   labs(caption=&quot;Source: basketball-reference | By Skylee Nelson&quot;)
+)</code></pre>
+<p><img src="http://skyleenelson.github.io/2021/12/03/96-bulls-vs-16-warriors-who-is-the-best-basketball-team/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+For 20 years the Chicago Bulls held the best regular season record of 72-10 until recently when the Warriors became the new title holders. These are still the best records in the NBA as these were the only two teams to win over 70 regular season games. Even though Golden State had a higher winning percentage, the Chicago Bulls finished their season with another NBA championship.</p>
+<p>Now let’s compare regular season and postseason point differentials. To do this I will be looking at a stacked bar chart that will show points made vs points allowed. I will start by creating two more data sets that include the team, points, and type of point to see the difference in point differential as well as regular and postseason performances.</p>
 <pre class="r"><code>bar1 &lt;- ggplot() + 
-  geom_bar(data=teamvsopp, aes(x=Team, weight=PTS, fill=Type)) + 
-  scale_fill_manual(values =c(&quot;grey&quot;, &quot;blue&quot;)) +
+ geom_bar(data=teamvsopp, aes(x=Team, weight=PTS, fill=Type)) +
+  scale_fill_manual(values =c(&quot;red&quot;, &quot;blue&quot;, &quot;grey&quot;)) +
   coord_flip() + 
   labs(
     x=&quot;&quot;,
@@ -114,36 +136,33 @@ gslogs &lt;- gamelogs %&gt;% filter(Team == &quot;Golden State Warriors&quot;)</
     )
 
 bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
-  scale_fill_manual(values =c(&quot;grey&quot;, &quot;blue&quot;))  +
+  scale_fill_manual(values =c(&quot;red&quot;, &quot;blue&quot;, &quot;grey&quot;))  +
   geom_bar() +
   coord_flip() +
   labs(x=&quot;&quot;, y=&quot;&quot;,
-       title=&quot;... compared to post-season point differences.&quot;,
+       title=&quot;... compared to postseason point differences.&quot;,
        subtitle=&quot;Was the Bulls greater score differential the deal breaker?&quot;,
-       caption=&quot;Source: Basketball Reference | By Skylee Nelson&quot;) +
+       caption=&quot;Source: basketball-reference.com | By Skylee Nelson&quot;) +
   theme_minimal() +
   theme(
     plot.title = element_text(size = 14, face = &quot;bold&quot;),
     axis.title = element_text(size = 8),
     plot.subtitle = element_text(size=10),
     panel.grid.minor = element_blank() 
-    )</code></pre>
+    ) </code></pre>
 <pre class="r"><code>plot_grid(bar1, bar2, ncol=1)</code></pre>
-<p><img src="http://skyleenelson.github.io/2021/12/03/96-bulls-vs-16-warriors-who-is-the-best-basketball-team/index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<pre class="r"><code>fourfactors &lt;- playerstats %&gt;%
-  select(Team, Player, &quot;eFG%&quot;, TOV, PTS, TRB) %&gt;%
-  group_by(Team, Player) %&gt;%
-  ungroup() %&gt;%
-  top_n(10) </code></pre>
-<pre><code>## Selecting by TRB</code></pre>
+<p><img src="http://skyleenelson.github.io/2021/12/03/96-bulls-vs-16-warriors-who-is-the-best-basketball-team/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>The Warriors are shown to score significantly more points than the bulls but they also allow their opponents to score a greater amount as well. We are also able to see that the Bulls improved in the postseason by increasing their point differential whereas the Warriors as they stayed the same.</p>
+<p>Is it fair to assume Golden State scored more points because of their three point shooting ability? Even though the Warriors scored more points, both teams were able to outscore their opponents.</p>
+<p>I will now compare each teams field goal percentage. From the previous graph we were able to determine who scores and allows more points. But now let’s look at how accurate they were on offense. I will be using a line chart to compare field goal percentages for both teams throughout their seasons.</p>
 <pre class="r"><code>ggplot() + 
   geom_line(data=gslogs, aes(x=Month, y=FGPCT), color=&quot;blue&quot;) + 
   geom_line(data=cblogs, aes(x=Month, y=FGPCT), color=&quot;red&quot;) +  
   labs(
     x=&quot;&quot;, 
     y=&quot;&quot;, 
-    title=&quot;&#39;96 Bulls &amp; &#39;16 Warriors Field Goal Percentage Comparison&quot;, 
-    subtitle=&quot;Golden State maintained greater consitency throughout the season. Chicago remained unpredictable.&quot;, 
+    title=&quot;&#39;96 Bulls &amp; &#39;16 Warriors field goal percentage comparison&quot;, 
+    subtitle=&quot;Golden State had greater peaks, however, Chicago remained near .500 throughout the season.&quot;, 
     caption=&quot;Source: basketball-reference.com | By Skylee Nelson&quot;) + 
   theme_minimal() + 
   theme(
@@ -152,14 +171,21 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
     plot.subtitle = element_text(size=10),
     panel.grid.minor = element_blank() 
     ) +
-  scale_y_continuous(limits = c(0, .75)) +
-  facet_wrap(~Team)</code></pre>
-<p><img src="http://skyleenelson.github.io/2021/12/03/96-bulls-vs-16-warriors-who-is-the-best-basketball-team/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+  scale_y_continuous(limits = c(0, .75)) </code></pre>
+<p><img src="http://skyleenelson.github.io/2021/12/03/96-bulls-vs-16-warriors-who-is-the-best-basketball-team/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+Golden State appears to have greater highs and low peaks in their field goal percentages. However, both teams showed similar trends until the end of the regular season. When looking at the end of March and beginning of April it is interesting to see how the charts have changed. The Warriors began to continuously increase their field goal percentage. The Bulls on the other hand took a hit in the middle of playoffs, which seems unlikely for this top preforming team.</p>
+<p>So far we have compared records, points, and field goal percentages, now lets take a look at the four most contributing factors to winning outcomes. The four stats we will be focusing on will be effective field goal percentage, turnovers, points, and total rebounds. I will be looking at the top 5 players from each team and we will be able to see the best players preformace in each of these catefories. I will begin by creating a data frame of the four factors and group them by team and player looking at only a top 10 list.</p>
+<pre class="r"><code>fourfactors &lt;- playerstats %&gt;%
+  select(Team, Player, &quot;eFG%&quot;, TOV, PTS, TRB) %&gt;%
+  group_by(Team, Player) %&gt;%
+  ungroup() %&gt;%
+  top_n(10) </code></pre>
+<pre><code>## Selecting by TRB</code></pre>
 <pre class="r"><code>fourfactors %&gt;% 
   gt() %&gt;% 
   tab_header(
     title = &quot;Top 10 players according to four most contributing factors.&quot;,
-    subtitle = &quot;Equal talent for both teams allow for low scorers to showcase talent in other categories.&quot;
+    subtitle = &quot;Equal talent for both teams allowed low scorers to showcase talent in other categories.&quot;
   ) %&gt;%  
   tab_source_note(
     source_note = md(&quot;Source: basketball-reference.com | By Skylee Nelson&quot;)
@@ -188,11 +214,36 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
       rows = Player == &quot;Andrew Bogut&quot;)) %&gt;%
   tab_style(
     style = list(
+      cell_text(color = &quot;blue&quot;)
+      ),
+    locations = cells_body(
+      rows = Player == &quot;Stephen Curry&quot;,
+      column = PTS))%&gt;%
+  tab_style(
+    style = list(
       cell_fill(color = &quot;black&quot;),
       cell_text(color = &quot;red&quot;)
       ),
     locations = cells_body(
       rows = Player == &quot;Dennis Rodman&quot;)) %&gt;%
+   tab_style(
+    style = list(
+      cell_text(color = &quot;blue&quot;)),
+    locations = cells_body(
+      rows = Player == &quot;Draymond Green&quot;,
+      column=TRB)) %&gt;%
+   tab_style(
+    style = list(
+      cell_text(color = &quot;red&quot;)),
+    locations = cells_body(
+      rows = Player == &quot;Michael Jordan&quot;,
+      column=PTS)) %&gt;%
+   tab_style(
+    style = list(
+      cell_text(color = &quot;red&quot;)),
+    locations = cells_body(
+      rows = Player == &quot;Toni Kukoč&quot;,
+      column=&quot;eFG%&quot;)) %&gt;%
   opt_row_striping() %&gt;%
   opt_table_lines(&quot;none&quot;) %&gt;%
   tab_style(
@@ -200,12 +251,12 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
                          color = &quot; grey&quot;, weight = px(1)),
     locations = cells_column_labels(everything())
   )</code></pre>
-<div id="njyiualkce" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qsuupugikd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#njyiualkce .gt_table {
+#qsuupugikd .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -230,7 +281,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   border-left-color: #D3D3D3;
 }
 
-#njyiualkce .gt_heading {
+#qsuupugikd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -242,7 +293,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   border-right-color: #D3D3D3;
 }
 
-#njyiualkce .gt_title {
+#qsuupugikd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -252,7 +303,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   border-bottom-width: 0;
 }
 
-#njyiualkce .gt_subtitle {
+#qsuupugikd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -262,13 +313,13 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   border-top-width: 0;
 }
 
-#njyiualkce .gt_bottom_border {
+#qsuupugikd .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#njyiualkce .gt_col_headings {
+#qsuupugikd .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -283,7 +334,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   border-right-color: #D3D3D3;
 }
 
-#njyiualkce .gt_col_heading {
+#qsuupugikd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -303,7 +354,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   overflow-x: hidden;
 }
 
-#njyiualkce .gt_column_spanner_outer {
+#qsuupugikd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -315,15 +366,15 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   padding-right: 4px;
 }
 
-#njyiualkce .gt_column_spanner_outer:first-child {
+#qsuupugikd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#njyiualkce .gt_column_spanner_outer:last-child {
+#qsuupugikd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#njyiualkce .gt_column_spanner {
+#qsuupugikd .gt_column_spanner {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -335,7 +386,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   width: 100%;
 }
 
-#njyiualkce .gt_group_heading {
+#qsuupugikd .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -357,7 +408,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   vertical-align: middle;
 }
 
-#njyiualkce .gt_empty_group_heading {
+#qsuupugikd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -372,15 +423,15 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   vertical-align: middle;
 }
 
-#njyiualkce .gt_from_md > :first-child {
+#qsuupugikd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#njyiualkce .gt_from_md > :last-child {
+#qsuupugikd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#njyiualkce .gt_row {
+#qsuupugikd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -399,7 +450,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   overflow-x: hidden;
 }
 
-#njyiualkce .gt_stub {
+#qsuupugikd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -411,7 +462,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   padding-left: 12px;
 }
 
-#njyiualkce .gt_summary_row {
+#qsuupugikd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -421,7 +472,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   padding-right: 5px;
 }
 
-#njyiualkce .gt_first_summary_row {
+#qsuupugikd .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -431,7 +482,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   border-top-color: #D3D3D3;
 }
 
-#njyiualkce .gt_grand_summary_row {
+#qsuupugikd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -441,7 +492,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   padding-right: 5px;
 }
 
-#njyiualkce .gt_first_grand_summary_row {
+#qsuupugikd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -451,11 +502,11 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   border-top-color: #D3D3D3;
 }
 
-#njyiualkce .gt_striped {
+#qsuupugikd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#njyiualkce .gt_table_body {
+#qsuupugikd .gt_table_body {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -464,7 +515,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   border-bottom-color: #D3D3D3;
 }
 
-#njyiualkce .gt_footnotes {
+#qsuupugikd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -478,13 +529,13 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   border-right-color: #D3D3D3;
 }
 
-#njyiualkce .gt_footnote {
+#qsuupugikd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#njyiualkce .gt_sourcenotes {
+#qsuupugikd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -498,41 +549,41 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   border-right-color: #D3D3D3;
 }
 
-#njyiualkce .gt_sourcenote {
+#qsuupugikd .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#njyiualkce .gt_left {
+#qsuupugikd .gt_left {
   text-align: left;
 }
 
-#njyiualkce .gt_center {
+#qsuupugikd .gt_center {
   text-align: center;
 }
 
-#njyiualkce .gt_right {
+#qsuupugikd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#njyiualkce .gt_font_normal {
+#qsuupugikd .gt_font_normal {
   font-weight: normal;
 }
 
-#njyiualkce .gt_font_bold {
+#qsuupugikd .gt_font_bold {
   font-weight: bold;
 }
 
-#njyiualkce .gt_font_italic {
+#qsuupugikd .gt_font_italic {
   font-style: italic;
 }
 
-#njyiualkce .gt_super {
+#qsuupugikd .gt_super {
   font-size: 65%;
 }
 
-#njyiualkce .gt_footnote_marks {
+#qsuupugikd .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -544,7 +595,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
       <th colspan="6" class="gt_heading gt_title gt_font_normal" style="color: #000000; text-align: left; font-weight: bold;">Top 10 players according to four most contributing factors.</th>
     </tr>
     <tr>
-      <th colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="color: #000000; text-align: left;">Equal talent for both teams allow for low scorers to showcase talent in other categories.</th>
+      <th colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="color: #000000; text-align: left;">Equal talent for both teams allowed low scorers to showcase talent in other categories.</th>
     </tr>
   </thead>
   <thead class="gt_col_headings">
@@ -563,12 +614,12 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
 <td class="gt_row gt_right">0.511</td>
 <td class="gt_row gt_right">259</td>
 <td class="gt_row gt_right">1131</td>
-<td class="gt_row gt_right">769</td></tr>
+<td class="gt_row gt_right" style="color: #0000FF;">769</td></tr>
     <tr><td class="gt_row gt_left gt_striped">Golden State Warriors</td>
 <td class="gt_row gt_left gt_striped">Stephen Curry</td>
 <td class="gt_row gt_right gt_striped">0.630</td>
 <td class="gt_row gt_right gt_striped">262</td>
-<td class="gt_row gt_right gt_striped">2375</td>
+<td class="gt_row gt_right gt_striped" style="color: #0000FF;">2375</td>
 <td class="gt_row gt_right gt_striped">430</td></tr>
     <tr><td class="gt_row gt_left">Golden State Warriors</td>
 <td class="gt_row gt_left">Klay Thompson</td>
@@ -592,7 +643,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
 <td class="gt_row gt_left gt_striped">Michael Jordan</td>
 <td class="gt_row gt_right gt_striped">0.525</td>
 <td class="gt_row gt_right gt_striped">197</td>
-<td class="gt_row gt_right gt_striped">2491</td>
+<td class="gt_row gt_right gt_striped" style="color: #FF0000;">2491</td>
 <td class="gt_row gt_right gt_striped">543</td></tr>
     <tr><td class="gt_row gt_left">Chicago Bulls</td>
 <td class="gt_row gt_left">Scottie Pippen</td>
@@ -602,7 +653,7 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
 <td class="gt_row gt_right">496</td></tr>
     <tr><td class="gt_row gt_left gt_striped">Chicago Bulls</td>
 <td class="gt_row gt_left gt_striped">Toni Kukoč</td>
-<td class="gt_row gt_right gt_striped">0.546</td>
+<td class="gt_row gt_right gt_striped" style="color: #FF0000;">0.546</td>
 <td class="gt_row gt_right gt_striped">114</td>
 <td class="gt_row gt_right gt_striped">1065</td>
 <td class="gt_row gt_right gt_striped">323</td></tr>
@@ -627,6 +678,8 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
   
 </table>
 </div>
+<p>There is no doubt that Michael Jordan and Stephen Curry were stand out players on both ends of the court. However, players like Andrew Bogut and Dennis Rodman showcased their talents through other contributing factors such as rebounds and effective field goal percentage. Likewise, other top 5 players for both teams put up high numbers in other categories as well. While Jordan and Curry were top scorers for both teams they stood alongside many other valuable players as well. After comparing two of the greatest teams of all time we have seen how similar they preformed in both regular season and postseason games. We also compared top 5 players from each team and once again, we could expect similar numbers as both teams produced NBA All-Stars as well as MVP’s. However, only one team can be the greatest of all time and in my opinion, it doesn’t mean a thing without a ring.</p>
+<p>For now, the ’96 Bulls are the best team in NBA history.</p>
 
     </div>
   </article>
@@ -663,6 +716,9 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
 
 
     
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
 
     
   </body>
