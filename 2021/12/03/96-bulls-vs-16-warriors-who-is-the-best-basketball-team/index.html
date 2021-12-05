@@ -76,9 +76,9 @@
 <script src="http://skyleenelson.github.io/2021/12/03/96-bulls-vs-16-warriors-who-is-the-best-basketball-team/index_files/header-attrs/header-attrs.js"></script>
 
 
-<p>The 1995-96 Chicago Bulls and 2015-16 Golden State Warriors are considered to be two of the greatest team’s in NBA history. Both teams had record breaking seasons as well as NBA All-Star players Michael Jordan, Scottie Pippen, Stephen Curry, Draymond Green, and Klay Thompson. The Bulls had won their third straight NBA championships. The Warriors, however, began their season 20-0 but later fell short in the championship game against the Cleveland Cavaliers. While both teams are among the greatest teams in NBA history, only one can be considered the best.</p>
-<p>Let’s begin with comparing records, and then we will break down the numbers to determine who really is the best team in NBA history.</p>
-<p>First, I am going to download the libraries and data frames I will be using. The data sets I will be using are focused on shooting percentages, regular season and post season performances, and game logs from each teams respective season.</p>
+<p>The 1995-96 Chicago Bulls and 2015-16 Golden State Warriors are considered to be two of the greatest teams in NBA history. Both teams had record-breaking seasons as well as NBA All-Star players Michael Jordan, Scottie Pippen, Stephen Curry, Draymond Green, and Klay Thompson. The Bulls had won their third straight NBA championships. The Warriors, however, began their season 20-0 but later fell short in the championship game against the Cleveland Cavaliers. While both teams are among the greatest teams in NBA history, only one can be considered the best.</p>
+<p>Let’s begin with comparing records, and then we will break down the numbers to determine who is the best team in NBA history.</p>
+<p>First, I am going to download the libraries and data frames I will be using. The data sets I will be using are focused on shooting percentages, regular season and post-season performances, and game logs from each team’s respective season.</p>
 <pre class="r"><code>library(tidyverse)
 library(gt)
 library(waffle)
@@ -89,7 +89,7 @@ postseason &lt;- read_csv(&quot;postseasonpts - Sheet1.csv&quot;)
 gamelogs &lt;- read_csv(&quot;gamelogs - Sheet1.csv&quot;)
 cblogs &lt;- gamelogs %&gt;% filter(Team == &quot;Chicago Bulls&quot;)
 gslogs &lt;- gamelogs %&gt;% filter(Team == &quot;Golden State Warriors&quot;)</code></pre>
-<p>To understand how great these teams really were, let’s begin by looking at their regular season records. I am going to create a waffle chart that compares each teams wins and losses. I need to start by creating a new data set for each team that includes their record.</p>
+<p>To understand how great these teams were, let’s begin by looking at their regular-season records. I am going to create a waffle chart that compares each team’s wins and losses. I need to start by creating a new data set for each team that includes their record.</p>
 <pre class="r"><code>gs &lt;- c(&quot;Wins&quot;=73, &quot;Losses&quot;=9)
 cb &lt;- c(&quot;Wins&quot;=72, &quot;Losses&quot;=10)</code></pre>
 <pre class="r"><code>iron(
@@ -115,7 +115,7 @@ cb &lt;- c(&quot;Wins&quot;=72, &quot;Losses&quot;=10)</code></pre>
    labs(caption=&quot;Source: basketball-reference | By Skylee Nelson&quot;)
 )</code></pre>
 <p><img src="http://skyleenelson.github.io/2021/12/03/96-bulls-vs-16-warriors-who-is-the-best-basketball-team/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
-For 20 years the Chicago Bulls held the best regular season record of 72-10 until recently when the Warriors became the new title holders. These are still the best records in the NBA as these were the only two teams to win over 70 regular season games. Even though Golden State had a higher winning percentage, the Chicago Bulls finished their season with another NBA championship.</p>
+For 20 years the Chicago Bulls held the best regular-season record of 72-10 until recently when the Warriors became the new titleholders. These are still the best records in the NBA as these were the only two teams to win over 70 regular-season games. Even though Golden State had a higher winning percentage, the Chicago Bulls finished their season with another NBA championship.</p>
 <p>Now let’s compare regular season and postseason point differentials. To do this I will be looking at a stacked bar chart that will show points made vs points allowed. I will start by creating two more data sets that include the team, points, and type of point to see the difference in point differential as well as regular and postseason performances.</p>
 <pre class="r"><code>bar1 &lt;- ggplot() + 
  geom_bar(data=teamvsopp, aes(x=Team, weight=PTS, fill=Type)) +
@@ -152,9 +152,9 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
     ) </code></pre>
 <pre class="r"><code>plot_grid(bar1, bar2, ncol=1)</code></pre>
 <p><img src="http://skyleenelson.github.io/2021/12/03/96-bulls-vs-16-warriors-who-is-the-best-basketball-team/index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>The Warriors are shown to score significantly more points than the bulls but they also allow their opponents to score a greater amount as well. We are also able to see that the Bulls improved in the postseason by increasing their point differential whereas the Warriors as they stayed the same.</p>
-<p>Is it fair to assume Golden State scored more points because of their three point shooting ability? Even though the Warriors scored more points, both teams were able to outscore their opponents.</p>
-<p>I will now compare each teams field goal percentage. From the previous graph we were able to determine who scores and allows more points. But now let’s look at how accurate they were on offense. I will be using a line chart to compare field goal percentages for both teams throughout their seasons.</p>
+<p>The Warriors are shown to score significantly more points than the bulls but they also allow their opponents to score a greater amount as well. We are also able to see that the Bulls improved in the postseason by increasing their point differential whereas the Warriors stayed the same.</p>
+<p>Is it fair to assume Golden State scored more points because of their three-point shooting ability? Even though the Warriors scored more points, both teams were able to outscore their opponents.</p>
+<p>I will now compare each team’s field goal percentage. From the previous graph, we were able to determine who scores and allows more points. But now let’s look at how accurate they were on offense. I will be using a line chart to compare field goal percentages for both teams throughout their seasons.</p>
 <pre class="r"><code>ggplot() + 
   geom_line(data=gslogs, aes(x=Month, y=FGPCT), color=&quot;blue&quot;) + 
   geom_line(data=cblogs, aes(x=Month, y=FGPCT), color=&quot;red&quot;) +  
@@ -173,8 +173,8 @@ bar2 &lt;- ggplot(data=postseason, aes(x=Team, weight=PTS, fill=Type)) +
     ) +
   scale_y_continuous(limits = c(0, .75)) </code></pre>
 <p><img src="http://skyleenelson.github.io/2021/12/03/96-bulls-vs-16-warriors-who-is-the-best-basketball-team/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
-Golden State appears to have greater highs and low peaks in their field goal percentages. However, both teams showed similar trends until the end of the regular season. When looking at the end of March and beginning of April it is interesting to see how the charts have changed. The Warriors began to continuously increase their field goal percentage. The Bulls on the other hand took a hit in the middle of playoffs, which seems unlikely for this top preforming team.</p>
-<p>So far we have compared records, points, and field goal percentages, now lets take a look at the four most contributing factors to winning outcomes. The four stats we will be focusing on will be effective field goal percentage, turnovers, points, and total rebounds. I will be looking at the top 5 players from each team and we will be able to see the best players preformace in each of these catefories. I will begin by creating a data frame of the four factors and group them by team and player looking at only a top 10 list.</p>
+Golden State appears to have greater highs and low peaks in their field goal percentages. However, both teams showed similar trends until the end of the regular season. When looking at the end of March and beginning the of April it is interesting to see how the charts have changed. The Warriors began to continuously increase their field goal percentage. The Bulls on the other hand took a hit in the middle of playoffs, which seems unlikely for this top performing team.</p>
+<p>So far we have compared records, points, and field goal percentages now let’s take a look at the four most contributing factors to winning outcomes. The four categories we will be focusing on will be effective field goal percentage, turnovers, points, and total rebounds. I will be looking at the top 5 players from each team and we will be able to see the best player’s performance in each of these categories. I will begin by creating a data frame of the four factors and group them by team and player looking at only a top 10 list.</p>
 <pre class="r"><code>fourfactors &lt;- playerstats %&gt;%
   select(Team, Player, &quot;eFG%&quot;, TOV, PTS, TRB) %&gt;%
   group_by(Team, Player) %&gt;%
@@ -251,12 +251,12 @@ Golden State appears to have greater highs and low peaks in their field goal per
                          color = &quot; grey&quot;, weight = px(1)),
     locations = cells_column_labels(everything())
   )</code></pre>
-<div id="qsuupugikd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="jnjkjxythf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qsuupugikd .gt_table {
+#jnjkjxythf .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -281,7 +281,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   border-left-color: #D3D3D3;
 }
 
-#qsuupugikd .gt_heading {
+#jnjkjxythf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -293,7 +293,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   border-right-color: #D3D3D3;
 }
 
-#qsuupugikd .gt_title {
+#jnjkjxythf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -303,7 +303,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   border-bottom-width: 0;
 }
 
-#qsuupugikd .gt_subtitle {
+#jnjkjxythf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -313,13 +313,13 @@ Golden State appears to have greater highs and low peaks in their field goal per
   border-top-width: 0;
 }
 
-#qsuupugikd .gt_bottom_border {
+#jnjkjxythf .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qsuupugikd .gt_col_headings {
+#jnjkjxythf .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -334,7 +334,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   border-right-color: #D3D3D3;
 }
 
-#qsuupugikd .gt_col_heading {
+#jnjkjxythf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -354,7 +354,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   overflow-x: hidden;
 }
 
-#qsuupugikd .gt_column_spanner_outer {
+#jnjkjxythf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -366,15 +366,15 @@ Golden State appears to have greater highs and low peaks in their field goal per
   padding-right: 4px;
 }
 
-#qsuupugikd .gt_column_spanner_outer:first-child {
+#jnjkjxythf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qsuupugikd .gt_column_spanner_outer:last-child {
+#jnjkjxythf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qsuupugikd .gt_column_spanner {
+#jnjkjxythf .gt_column_spanner {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -386,7 +386,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   width: 100%;
 }
 
-#qsuupugikd .gt_group_heading {
+#jnjkjxythf .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -408,7 +408,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   vertical-align: middle;
 }
 
-#qsuupugikd .gt_empty_group_heading {
+#jnjkjxythf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -423,15 +423,15 @@ Golden State appears to have greater highs and low peaks in their field goal per
   vertical-align: middle;
 }
 
-#qsuupugikd .gt_from_md > :first-child {
+#jnjkjxythf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qsuupugikd .gt_from_md > :last-child {
+#jnjkjxythf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qsuupugikd .gt_row {
+#jnjkjxythf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -450,7 +450,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   overflow-x: hidden;
 }
 
-#qsuupugikd .gt_stub {
+#jnjkjxythf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -462,7 +462,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   padding-left: 12px;
 }
 
-#qsuupugikd .gt_summary_row {
+#jnjkjxythf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -472,7 +472,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   padding-right: 5px;
 }
 
-#qsuupugikd .gt_first_summary_row {
+#jnjkjxythf .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -482,7 +482,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   border-top-color: #D3D3D3;
 }
 
-#qsuupugikd .gt_grand_summary_row {
+#jnjkjxythf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -492,7 +492,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   padding-right: 5px;
 }
 
-#qsuupugikd .gt_first_grand_summary_row {
+#jnjkjxythf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -502,11 +502,11 @@ Golden State appears to have greater highs and low peaks in their field goal per
   border-top-color: #D3D3D3;
 }
 
-#qsuupugikd .gt_striped {
+#jnjkjxythf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qsuupugikd .gt_table_body {
+#jnjkjxythf .gt_table_body {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -515,7 +515,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   border-bottom-color: #D3D3D3;
 }
 
-#qsuupugikd .gt_footnotes {
+#jnjkjxythf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -529,13 +529,13 @@ Golden State appears to have greater highs and low peaks in their field goal per
   border-right-color: #D3D3D3;
 }
 
-#qsuupugikd .gt_footnote {
+#jnjkjxythf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#qsuupugikd .gt_sourcenotes {
+#jnjkjxythf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -549,41 +549,41 @@ Golden State appears to have greater highs and low peaks in their field goal per
   border-right-color: #D3D3D3;
 }
 
-#qsuupugikd .gt_sourcenote {
+#jnjkjxythf .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#qsuupugikd .gt_left {
+#jnjkjxythf .gt_left {
   text-align: left;
 }
 
-#qsuupugikd .gt_center {
+#jnjkjxythf .gt_center {
   text-align: center;
 }
 
-#qsuupugikd .gt_right {
+#jnjkjxythf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qsuupugikd .gt_font_normal {
+#jnjkjxythf .gt_font_normal {
   font-weight: normal;
 }
 
-#qsuupugikd .gt_font_bold {
+#jnjkjxythf .gt_font_bold {
   font-weight: bold;
 }
 
-#qsuupugikd .gt_font_italic {
+#jnjkjxythf .gt_font_italic {
   font-style: italic;
 }
 
-#qsuupugikd .gt_super {
+#jnjkjxythf .gt_super {
   font-size: 65%;
 }
 
-#qsuupugikd .gt_footnote_marks {
+#jnjkjxythf .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;
@@ -678,7 +678,7 @@ Golden State appears to have greater highs and low peaks in their field goal per
   
 </table>
 </div>
-<p>There is no doubt that Michael Jordan and Stephen Curry were stand out players on both ends of the court. However, players like Andrew Bogut and Dennis Rodman showcased their talents through other contributing factors such as rebounds and effective field goal percentage. Likewise, other top 5 players for both teams put up high numbers in other categories as well. While Jordan and Curry were top scorers for both teams they stood alongside many other valuable players as well. After comparing two of the greatest teams of all time we have seen how similar they preformed in both regular season and postseason games. We also compared top 5 players from each team and once again, we could expect similar numbers as both teams produced NBA All-Stars as well as MVP’s. However, only one team can be the greatest of all time and in my opinion, it doesn’t mean a thing without a ring.</p>
+<p>There is no doubt that Michael Jordan and Stephen Curry were stand-out players on both ends of the court. However, players like Andrew Bogut and Dennis Rodman showcased their talents through other contributing factors such as rebounds and effective field goal percentage. Likewise, other top 5 players for both teams put up high numbers in other categories as well. While Jordan and Curry were top scorers for both teams they stood alongside many other valuable players as well. After comparing two of the greatest teams of all time we have seen how similar they performed in both regular season and postseason games. We also compared the top 5 players from each team and once again, we could expect similar numbers as both teams produced NBA All-Stars as well as MVPs. However, only one team can be the greatest of all time and in my opinion, it doesn’t mean a thing without a ring.</p>
 <p>For now, the ’96 Bulls are the best team in NBA history.</p>
 
     </div>
